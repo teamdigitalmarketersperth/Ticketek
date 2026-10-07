@@ -1,0 +1,1941 @@
+/* ==========================================================================
+   ODYSSEY — THEATRICAL CINEMATIC DESIGN SYSTEM
+   Starlight Anthem · Live at Regal Theatre, Perth
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   01. DESIGN TOKENS & CSS VARIABLES
+   -------------------------------------------------------------------------- */
+:root {
+  /* Near-Black Palette */
+  --black: #000000;
+  --black-soft: #050505;
+  --black-elevated: #080808;
+  --charcoal: #0D0D0D;
+  --charcoal-light: #111111;
+
+  /* Primary Typography: Ivory / Parchment */
+  --ivory: #F2E8D8;
+  --ivory-medium: #E8DDCC;
+  --ivory-soft: #D8CBB8;
+  --ivory-weathered: #C8BBA7;
+  --muted: #8D857A;
+  --muted-dark: #4A453F;
+
+  /* Odyssey Red (Theatrical Passion / Curtains / Danger) */
+  --red: #B51218;
+  --red-dark: #5C080C;
+  --red-deep: #8E0D12;
+  --red-bright: #D21C22;
+  --red-glow: rgba(181, 18, 24, 0.35);
+  --red-glow-subtle: rgba(181, 18, 24, 0.14);
+
+  /* Bronze / Champagne Highlights */
+  --bronze: #B08A5A;
+  --bronze-light: #C3A16C;
+  --bronze-dark: #8C6842;
+  --bronze-glow: rgba(195, 161, 108, 0.18);
+
+  /* Midnight Blue (Atmosphere & Imagery) */
+  --blue-dark: #06121C;
+  --blue-midnight: #081A27;
+  --blue-abyss: #0B2535;
+
+  /* Typography */
+  --font-serif: "Bodoni Moda", "DM Serif Display", "Cormorant Garamond", Georgia, serif;
+  --font-editorial: "Cormorant Garamond", "Bodoni Moda", Georgia, serif;
+  --font-sans: "Inter", "Helvetica Neue", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Spacing & Transitions */
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-slow: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --duration-cinematic: 0.8s;
+  --nav-height: 84px;
+}
+
+/* --------------------------------------------------------------------------
+   02. RESET & BASE STYLES
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: var(--black);
+  color: var(--ivory);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 1.5rem);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--black);
+  color: var(--ivory);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  cursor: default;
+}
+
+::selection {
+  background: var(--red);
+  color: var(--ivory);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   03. ATMOSPHERIC THEATRICAL LIGHTING SYSTEMS
+   -------------------------------------------------------------------------- */
+/* Red Light System (Requirement 23) */
+.odyssey-red-glow {
+  position: relative;
+}
+.odyssey-red-glow::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at center, var(--red-glow) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.75;
+  filter: blur(40px);
+}
+
+/* Theatrical Spotlight System (Requirement 24) */
+.theatre-spotlight-top {
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 700px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(242, 232, 216, 0.16) 0%, rgba(242, 232, 216, 0.03) 45%, transparent 75%);
+  pointer-events: none;
+  z-index: 2;
+  filter: blur(35px);
+  opacity: 0.85;
+}
+
+.theatre-spotlight-red {
+  position: absolute;
+  top: 15%;
+  right: -10%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(181, 18, 24, 0.18) 0%, rgba(92, 8, 12, 0.05) 50%, transparent 75%);
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(60px);
+}
+
+.theatre-spotlight-side {
+  position: absolute;
+  bottom: 10%;
+  left: -15%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(176, 138, 90, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(50px);
+}
+
+/* Reflective Stage Floor (Requirement 26) */
+.stage-floor-reflection {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 240px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.98) 0%, rgba(0, 0, 0, 0.6) 50%, transparent 100%),
+              radial-gradient(ellipse at 50% 100%, rgba(242, 232, 216, 0.07) 0%, rgba(181, 18, 24, 0.05) 40%, transparent 80%);
+  pointer-events: none;
+  z-index: 3;
+}
+.stage-floor-reflection::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(242, 232, 216, 0.2), rgba(181, 18, 24, 0.4), rgba(242, 232, 216, 0.2), transparent);
+  filter: blur(1px);
+}
+
+/* --------------------------------------------------------------------------
+   04. TYPOGRAPHY SYSTEM
+   -------------------------------------------------------------------------- */
+.serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.didone-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--ivory);
+  text-shadow: 0 0 25px rgba(242, 232, 216, 0.08);
+}
+
+.text-weathered {
+  color: var(--ivory-soft);
+  background: linear-gradient(180deg, #FFFFFF 0%, var(--ivory) 45%, var(--ivory-weathered) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.meta-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bronze-light);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.meta-label::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background-color: var(--red);
+  flex-shrink: 0;
+}
+
+.meta-label.is-centered::after {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background-color: var(--red);
+  flex-shrink: 0;
+}
+
+.red-emphasis {
+  color: var(--red-bright) !important;
+  text-shadow: 0 0 20px rgba(210, 28, 34, 0.35);
+}
+
+.campaign-period {
+  color: var(--red);
+  margin-left: -0.08em;
+}
+
+/* --------------------------------------------------------------------------
+   05. BUTTONS (Requirement 12, 37)
+   -------------------------------------------------------------------------- */
+.odyssey-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 1.15rem 2.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(242, 232, 216, 0.25);
+  border-radius: 0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s var(--ease-cinematic);
+  backdrop-filter: blur(6px);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.odyssey-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(181, 18, 24, 0.2) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.odyssey-btn .btn-arrow {
+  display: inline-block;
+  transition: transform 0.35s var(--ease-cinematic), color 0.35s ease;
+  color: var(--red);
+  font-size: 1.1rem;
+}
+
+.odyssey-btn:hover {
+  border-color: var(--red);
+  color: #FFFFFF;
+  box-shadow: 0 0 30px rgba(181, 18, 24, 0.4), inset 0 0 15px rgba(181, 18, 24, 0.2);
+  transform: translateY(-2px);
+}
+
+.odyssey-btn:hover::before {
+  opacity: 1;
+}
+
+.odyssey-btn:hover .btn-arrow {
+  transform: translateX(6px);
+  color: var(--red-bright);
+}
+
+.odyssey-btn-secondary {
+  border: 1px solid rgba(176, 138, 90, 0.25);
+  background: transparent;
+  color: var(--ivory-soft);
+}
+
+.odyssey-btn-secondary .btn-arrow {
+  color: var(--bronze-light);
+}
+
+.odyssey-btn-secondary:hover {
+  border-color: var(--bronze-light);
+  box-shadow: 0 0 25px rgba(176, 138, 90, 0.25);
+  color: var(--ivory);
+}
+
+.odyssey-btn-secondary:hover .btn-arrow {
+  transform: translateY(4px);
+  color: var(--ivory);
+}
+
+/* --------------------------------------------------------------------------
+   06. STICKY MINIMAL NAVIGATION (Requirement 13)
+   -------------------------------------------------------------------------- */
+.odyssey-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.5s ease, backdrop-filter 0.5s ease, border-bottom 0.5s ease, height 0.4s ease;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.odyssey-header.scrolled {
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(242, 232, 216, 0.12);
+  height: 72px;
+}
+
+.nav-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-mark {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  letter-spacing: -0.02em;
+  color: var(--ivory);
+  text-transform: uppercase;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+}
+
+.brand-title .period {
+  color: var(--red);
+}
+
+.brand-tagline {
+  font-family: var(--font-sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: -3px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2.75rem;
+  list-style: none;
+}
+
+.nav-link {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ivory-soft);
+  transition: color 0.3s ease;
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--red);
+  transition: width 0.3s var(--ease-cinematic);
+}
+
+.nav-link:hover {
+  color: #FFFFFF;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: var(--ivory);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-cta {
+  padding: 0.75rem 1.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+}
+
+/* Mobile Menu Toggle */
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1002;
+}
+
+.mobile-toggle span {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--ivory);
+  transition: all 0.35s ease;
+}
+
+.mobile-toggle.is-open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+  background-color: var(--red-bright);
+}
+.mobile-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+.mobile-toggle.is-open span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+  background-color: var(--red-bright);
+}
+
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.96);
+  backdrop-filter: blur(25px);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s var(--ease-cinematic), visibility 0.5s;
+}
+
+.mobile-nav-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.mobile-nav-link {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+  display: inline-block;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.mobile-nav-link:hover {
+  color: var(--red-bright);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   09. HERO SECTION (Requirements 10, 11, 12, 26, 39)
+   -------------------------------------------------------------------------- */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  max-height: 1080px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--nav-height) + 1.5rem) 3rem 2.5rem;
+  overflow: hidden;
+  background-color: var(--black);
+}
+
+/* Layered Hero Backgrounds */
+.hero-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 30%;
+  z-index: 0;
+  transform: scale(1.05);
+  transition: transform 1.2s var(--ease-cinematic);
+  filter: contrast(1.15) brightness(0.85);
+}
+
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.75) 65%, var(--black) 98%),
+              linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 25%, transparent 60%, var(--black) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Hero Content Composition (Editorial Asymmetric Layout) */
+.hero-content {
+  position: relative;
+  z-index: 4;
+  max-width: 1440px;
+  width: 100%;
+  margin: auto auto 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-label-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(242, 232, 216, 0.12);
+}
+
+.hero-supertitle {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ivory-soft);
+  font-weight: 500;
+}
+
+.hero-date-badge {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bronze-light);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.hero-date-badge::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: var(--red);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--red-bright);
+}
+
+.hero-title-area {
+  margin: 1rem 0 2rem;
+  position: relative;
+}
+
+.hero-title-giant {
+  font-size: clamp(4.5rem, 16vw, 15.5rem);
+  line-height: 0.82;
+  letter-spacing: -0.05em;
+  display: block;
+  user-select: none;
+  color: var(--ivory);
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5ECDD 45%, #D6C6AF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
+}
+
+.hero-title-giant .period {
+  -webkit-text-fill-color: var(--red);
+  color: var(--red);
+  text-shadow: 0 0 35px var(--red);
+}
+
+.hero-statement-strip {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.hero-statement-word {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 3.5vw, 3rem);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--ivory-soft);
+}
+
+.hero-statement-word .period {
+  color: var(--red);
+}
+
+.hero-footer-bar {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: flex-end;
+  gap: 3rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(242, 232, 216, 0.1);
+}
+
+.hero-venue-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.venue-headline {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+  text-transform: uppercase;
+}
+
+.venue-subline {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  color: var(--ivory-soft);
+  opacity: 0.85;
+  text-transform: uppercase;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   10. INTRO MANIFESTO SECTION (Requirement 15)
+   -------------------------------------------------------------------------- */
+.manifesto-section {
+  position: relative;
+  background-color: var(--black);
+  padding: 10rem 3rem 11rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(242, 232, 216, 0.06);
+}
+
+.manifesto-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.manifesto-label {
+  margin-bottom: 3.5rem;
+  display: inline-flex;
+}
+
+.manifesto-text {
+  font-size: clamp(3rem, 9.5vw, 8.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.manifesto-line {
+  display: block;
+  transition: transform 0.8s var(--ease-cinematic), opacity 0.8s;
+}
+
+.manifesto-line-1 {
+  color: var(--ivory);
+}
+
+.manifesto-line-2 {
+  color: var(--ivory-soft);
+}
+
+.manifesto-line-3 {
+  color: var(--red);
+  text-shadow: 0 0 45px rgba(181, 18, 24, 0.4);
+}
+
+.manifesto-line-4 {
+  color: var(--ivory);
+}
+
+.manifesto-subtext {
+  max-width: 680px;
+  margin: 4.5rem auto 0;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--ivory-soft);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+/* --------------------------------------------------------------------------
+   11. VISUAL STORY CHAPTERS (Requirements 16, 17, 18)
+   -------------------------------------------------------------------------- */
+.story-section {
+  position: relative;
+  background-color: var(--black-soft);
+  padding: 8rem 0 10rem;
+  overflow: hidden;
+}
+
+.story-header-wrap {
+  max-width: 1440px;
+  margin: 0 auto 5rem;
+  padding: 0 3rem;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  align-items: flex-end;
+}
+
+.story-main-heading {
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.story-sub-heading {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  line-height: 1.35;
+  color: var(--bronze-light);
+  letter-spacing: -0.01em;
+  border-left: 2px solid var(--red);
+  padding-left: 1.5rem;
+  text-transform: uppercase;
+}
+
+/* Parallax Image Canvas (Requirement 16, 17) */
+.story-hero-parallax-wrap {
+  position: relative;
+  width: 100%;
+  height: 75vh;
+  min-height: 480px;
+  max-height: 720px;
+  overflow: hidden;
+  margin-bottom: 7rem;
+}
+
+.story-hero-parallax-img {
+  position: absolute;
+  inset: -15% 0;
+  width: 100%;
+  height: 130%;
+  object-fit: cover;
+  object-position: center;
+  filter: contrast(1.2) brightness(0.7);
+  transform: translateY(0);
+  will-change: transform;
+}
+
+.story-parallax-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--black-soft) 0%, rgba(6, 18, 28, 0.4) 30%, rgba(0, 0, 0, 0.7) 70%, var(--black-soft) 100%);
+  display: flex;
+  align-items: center;
+  padding: 0 3rem;
+}
+
+.story-parallax-inner {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.story-parallax-quote {
+  font-size: clamp(2.2rem, 5.5vw, 5rem);
+  line-height: 0.96;
+  max-width: 800px;
+  color: var(--ivory);
+}
+
+.story-parallax-quote .accent-red {
+  color: var(--red-bright);
+}
+
+/* Chapters Narrative Breakdown (Requirement 18) */
+.story-chapters-wrap {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.chapters-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background-color: rgba(242, 232, 216, 0.08);
+  border: 1px solid rgba(242, 232, 216, 0.08);
+}
+
+.chapter-row {
+  background-color: var(--black);
+  padding: 3.5rem 3.5rem;
+  display: grid;
+  grid-template-columns: 120px 1.2fr 2fr;
+  align-items: baseline;
+  gap: 3rem;
+  transition: background-color 0.4s ease, border-left-color 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.chapter-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--red);
+  transform: scaleY(0);
+  transition: transform 0.4s var(--ease-cinematic);
+}
+
+.chapter-row:hover {
+  background-color: var(--charcoal);
+}
+
+.chapter-row:hover::before {
+  transform: scaleY(1);
+}
+
+.chapter-num {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  color: var(--bronze-light);
+  font-weight: 500;
+}
+
+.chapter-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1;
+  color: var(--ivory);
+  letter-spacing: -0.02em;
+}
+
+.chapter-desc {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ivory-soft);
+  font-weight: 300;
+  max-width: 650px;
+}
+
+/* --------------------------------------------------------------------------
+   12. BRAND STATEMENT: LIVE. MUSIC. FILM. THEATRE. (Requirement 19)
+   -------------------------------------------------------------------------- */
+.typographic-statement-section {
+  position: relative;
+  background-color: var(--black);
+  padding: 10rem 3rem 11rem;
+  overflow: hidden;
+  text-align: center;
+  border-top: 1px solid rgba(242, 232, 216, 0.06);
+  border-bottom: 1px solid rgba(242, 232, 216, 0.06);
+}
+
+.typographic-monument {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.monument-line {
+  font-family: var(--font-serif);
+  font-size: clamp(3.2rem, 10.5vw, 9.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  transition: transform 0.5s var(--ease-cinematic), color 0.4s ease;
+}
+
+.monument-line .period {
+  color: var(--red);
+}
+
+.monument-line-hero {
+  font-size: clamp(4.8rem, 16vw, 15rem);
+  color: var(--red) !important;
+  text-shadow: 0 0 60px rgba(181, 18, 24, 0.5);
+  margin-top: 1.5rem;
+  letter-spacing: -0.05em;
+  background: linear-gradient(180deg, #D21C22 0%, #B51218 50%, #5C080C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.monument-line-hero .period {
+  -webkit-text-fill-color: var(--red-bright);
+}
+
+/* --------------------------------------------------------------------------
+   13. MUSIC & SONIC ARCHITECTURE SECTION (Requirement 20)
+   -------------------------------------------------------------------------- */
+.music-section {
+  position: relative;
+  background-color: var(--charcoal);
+  padding: 9rem 3rem 10rem;
+  overflow: hidden;
+}
+
+.music-container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.music-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.music-image-frame {
+  position: relative;
+  border: 1px solid rgba(242, 232, 216, 0.12);
+  overflow: hidden;
+  background-color: var(--black);
+}
+
+.music-image-frame img {
+  width: 100%;
+  height: 580px;
+  object-fit: cover;
+  transition: transform 1s var(--ease-cinematic);
+  filter: contrast(1.1);
+}
+
+.music-image-frame:hover img {
+  transform: scale(1.03);
+}
+
+.music-image-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ivory-soft);
+  display: flex;
+  justify-content: space-between;
+}
+
+.music-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.music-headline {
+  font-size: clamp(2.5rem, 5.5vw, 4.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin: 1.5rem 0 2rem;
+}
+
+.music-description,
+.visual-tech-desc {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--ivory-soft);
+  font-weight: 300;
+  margin-bottom: 2.5rem;
+}
+
+/* Sonic Influences Tag Cluster */
+.sonic-influences-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 3.5rem;
+}
+
+.sonic-tag {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(242, 232, 216, 0.15);
+  color: var(--ivory);
+  transition: all 0.3s ease;
+}
+
+.sonic-tag:hover {
+  border-color: var(--red);
+  color: #FFFFFF;
+  background-color: rgba(181, 18, 24, 0.12);
+}
+
+/* Audio Visualizer (Interactive Simulation) */
+.visualizer-wrapper {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(242, 232, 216, 0.12);
+  padding: 1.75rem 2rem;
+  position: relative;
+}
+
+.visualizer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.visualizer-status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  color: var(--bronze-light);
+  text-transform: uppercase;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--red);
+  box-shadow: 0 0 10px var(--red-bright);
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.visualizer-btn {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ivory-soft);
+  border: 1px solid rgba(242, 232, 216, 0.2);
+  padding: 0.35rem 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.visualizer-btn:hover {
+  border-color: var(--red);
+  color: var(--ivory);
+}
+
+.visualizer-canvas {
+  width: 100%;
+  height: 90px;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   14. VISUAL TECHNOLOGY & PROJECTION MAPPING (Requirement 21)
+   -------------------------------------------------------------------------- */
+.visual-tech-section {
+  position: relative;
+  background-color: var(--black);
+  padding: 9rem 3rem 10rem;
+  overflow: hidden;
+}
+
+.visual-tech-container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.visual-tech-header {
+  max-width: 900px;
+  margin-bottom: 4rem;
+}
+
+.visual-tech-heading {
+  font-size: clamp(2.5rem, 6vw, 5.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin: 1.5rem 0 1.75rem;
+}
+
+.tech-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3.5rem;
+}
+
+.tech-card {
+  background-color: var(--charcoal);
+  border: 1px solid rgba(242, 232, 216, 0.1);
+  padding: 3rem 2.5rem;
+  position: relative;
+  transition: all 0.4s var(--ease-cinematic);
+}
+
+.tech-card:hover {
+  border-color: rgba(181, 18, 24, 0.6);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(181, 18, 24, 0.15);
+}
+
+.tech-card-icon {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: var(--red);
+  margin-bottom: 1.5rem;
+}
+
+.tech-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.65rem;
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.tech-card-desc {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--ivory-soft);
+  font-weight: 300;
+}
+
+/* --------------------------------------------------------------------------
+   15. PERTH VENUE & EVENT INFORMATION (Requirements 28, 29, 30)
+   -------------------------------------------------------------------------- */
+.venue-section {
+  position: relative;
+  background-color: var(--black-soft);
+  padding: 10rem 3rem 11rem;
+  overflow: hidden;
+  border-top: 1px solid rgba(242, 232, 216, 0.08);
+}
+
+.venue-container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.venue-hero-callout {
+  text-align: center;
+  max-width: 1100px;
+  margin: 0 auto 6rem;
+}
+
+.venue-massive-heading {
+  font-size: clamp(3.2rem, 9.5vw, 8.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  margin: 1.5rem 0 2.5rem;
+}
+
+.venue-massive-heading .accent {
+  color: var(--red);
+}
+
+/* Venue Visual & Info Split */
+.venue-details-split {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 4.5rem;
+  align-items: stretch;
+}
+
+.venue-image-box {
+  position: relative;
+  border: 1px solid rgba(242, 232, 216, 0.12);
+  overflow: hidden;
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+}
+
+.venue-image-box img {
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  object-fit: cover;
+  filter: contrast(1.15) brightness(0.9);
+  transition: transform 1.2s var(--ease-cinematic);
+}
+
+.venue-image-box:hover img {
+  transform: scale(1.02);
+}
+
+.venue-overlay-badge {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  background: rgba(0, 0, 0, 0.82);
+  border: 1px solid rgba(242, 232, 216, 0.2);
+  backdrop-filter: blur(8px);
+  padding: 0.75rem 1.4rem;
+}
+
+.venue-overlay-badge p {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bronze-light);
+}
+
+/* Event Specifics & Schedule Table (Requirement 29, 30) */
+.venue-schedule-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--charcoal);
+  border: 1px solid rgba(242, 232, 216, 0.1);
+  padding: 3.5rem;
+}
+
+.date-feature-block {
+  display: flex;
+  align-items: baseline;
+  gap: 2rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(242, 232, 216, 0.12);
+}
+
+.date-giant-number {
+  font-family: var(--font-serif);
+  font-size: clamp(4.5rem, 8vw, 7.5rem);
+  line-height: 0.85;
+  color: var(--ivory);
+  letter-spacing: -0.04em;
+}
+
+.date-meta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.date-month-year {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--ivory-soft);
+  letter-spacing: -0.01em;
+}
+
+.date-day-time {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  color: var(--red);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Show Timing Grid (Requirement 30) */
+.show-timing-grid {
+  margin: 2.5rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.timing-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(242, 232, 216, 0.08);
+}
+
+.timing-label {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.timing-value {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+  text-transform: uppercase;
+}
+
+.venue-location-card {
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.location-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  color: var(--ivory);
+}
+
+.location-address {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+/* --------------------------------------------------------------------------
+   16. DYNAMIC COUNTDOWN SECTION (Requirement 32)
+   -------------------------------------------------------------------------- */
+.countdown-section {
+  position: relative;
+  background-color: var(--black);
+  padding: 7rem 3rem 8rem;
+  border-top: 1px solid rgba(242, 232, 216, 0.06);
+  border-bottom: 1px solid rgba(242, 232, 216, 0.06);
+  text-align: center;
+}
+
+.countdown-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.countdown-campaign-phrase {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--ivory-soft);
+  margin-bottom: 3.5rem;
+}
+
+.countdown-campaign-phrase .highlight {
+  color: var(--red);
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.countdown-box {
+  background: var(--charcoal);
+  border: 1px solid rgba(242, 232, 216, 0.1);
+  padding: 2.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: border-color 0.3s ease;
+}
+
+.countdown-box:hover {
+  border-color: rgba(181, 18, 24, 0.4);
+}
+
+.countdown-number {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 6vw, 4.8rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--ivory);
+  font-weight: 400;
+}
+
+.countdown-unit {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bronze-light);
+  margin-top: 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   17. SEATING & SCARCITY SECTION (Requirement 31)
+   -------------------------------------------------------------------------- */
+.scarcity-section {
+  position: relative;
+  background-color: var(--black-soft);
+  padding: 10rem 3rem 11rem;
+  overflow: hidden;
+}
+
+.scarcity-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.scarcity-bg-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.22;
+  filter: contrast(1.3) grayscale(0.5);
+  pointer-events: none;
+}
+
+.scarcity-bg-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.scarcity-content-box {
+  max-width: 880px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  padding: 4rem 3rem;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(242, 232, 216, 0.12);
+  backdrop-filter: blur(16px);
+}
+
+.scarcity-heading {
+  font-size: clamp(2.8rem, 6.8vw, 5.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin: 1.5rem 0 2rem;
+}
+
+.scarcity-subheading {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  color: var(--red);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+
+.scarcity-narrative {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--ivory-soft);
+  font-weight: 300;
+  max-width: 680px;
+  margin: 0 auto 3rem;
+}
+
+/* --------------------------------------------------------------------------
+   18. THE CREATIVE FORCE SECTION (Requirement 33)
+   -------------------------------------------------------------------------- */
+.creatives-section {
+  position: relative;
+  background-color: var(--black);
+  padding: 9rem 3rem 10rem;
+  border-top: 1px solid rgba(242, 232, 216, 0.08);
+}
+
+.creatives-container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.creatives-header {
+  margin-bottom: 4.5rem;
+}
+
+.creatives-heading {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  letter-spacing: -0.04em;
+  margin-top: 1.25rem;
+}
+
+.creatives-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.creative-card {
+  background-color: var(--charcoal);
+  border: 1px solid rgba(242, 232, 216, 0.1);
+  padding: 3rem 2.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.4s ease, transform 0.4s var(--ease-cinematic);
+  position: relative;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.creative-card.featured {
+  border-color: rgba(181, 18, 24, 0.4);
+  background: linear-gradient(180deg, rgba(13, 13, 13, 0.95) 0%, rgba(92, 8, 12, 0.15) 100%);
+}
+
+.creative-card:hover {
+  border-color: var(--bronze-light);
+  transform: translateY(-3px);
+}
+
+.creative-role-badge {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bronze-light);
+  margin-bottom: 2rem;
+}
+
+.creative-name {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  margin-bottom: 1.25rem;
+}
+
+.creative-duties {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ivory-soft);
+}
+
+/* --------------------------------------------------------------------------
+   19. BEFORE YOU ARRIVE (ACCORDION ADVISORY) (Requirement 34)
+   -------------------------------------------------------------------------- */
+.advisory-section {
+  position: relative;
+  background-color: var(--charcoal);
+  padding: 9rem 3rem 10rem;
+  border-top: 1px solid rgba(242, 232, 216, 0.08);
+}
+
+.advisory-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.advisory-header {
+  text-align: center;
+  margin-bottom: 4.5rem;
+}
+
+.advisory-heading {
+  font-size: clamp(2.5rem, 6vw, 4.8rem);
+  letter-spacing: -0.04em;
+  margin-top: 1.25rem;
+}
+
+.accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background-color: rgba(242, 232, 216, 0.1);
+  border: 1px solid rgba(242, 232, 216, 0.1);
+}
+
+.accordion-item {
+  background-color: var(--black);
+  transition: background-color 0.3s ease;
+}
+
+.accordion-trigger {
+  width: 100%;
+  padding: 2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--ivory);
+}
+
+.accordion-trigger:hover {
+  background-color: var(--charcoal-light);
+}
+
+.accordion-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.accordion-icon {
+  font-family: var(--font-sans);
+  font-size: 1.2rem;
+  color: var(--red);
+  transition: transform 0.35s ease;
+}
+
+.accordion-item.is-open .accordion-icon {
+  transform: rotate(45deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s var(--ease-cinematic), padding 0.4s ease;
+  padding: 0 2.5rem;
+}
+
+.accordion-item.is-open .accordion-content {
+  max-height: 600px;
+  padding: 0 2.5rem 2rem;
+}
+
+.accordion-text {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ivory-soft);
+  font-weight: 300;
+}
+
+/* --------------------------------------------------------------------------
+   20. FINAL GRAND CTA SECTION (Requirement 35)
+   -------------------------------------------------------------------------- */
+.final-cta-section {
+  position: relative;
+  background-color: var(--black);
+  min-height: 70vh;
+  max-height: 850px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 3rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.final-cta-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.38;
+  filter: contrast(1.15) brightness(0.7);
+}
+
+.final-cta-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.final-cta-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.85) 60%, var(--black) 100%);
+}
+
+.final-cta-container {
+  position: relative;
+  z-index: 4;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.final-cta-title {
+  font-size: clamp(3.8rem, 13vw, 12rem);
+  line-height: 0.86;
+  letter-spacing: -0.05em;
+  margin: 1.5rem 0 3rem;
+}
+
+.final-cta-title .accent-red {
+  color: var(--red);
+  text-shadow: 0 0 50px rgba(181, 18, 24, 0.5);
+}
+
+.final-cta-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 3.5rem;
+}
+
+.meta-pill {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  padding: 0.6rem 1.4rem;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(242, 232, 216, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.final-btn-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.final-cta-btn {
+  padding: 1.35rem 3.5rem;
+  font-size: 0.92rem;
+}
+
+.final-btn-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(181, 18, 24, 0.4) 0%, transparent 70%);
+  z-index: -1;
+  filter: blur(25px);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   21. FOOTER (Requirement 36)
+   -------------------------------------------------------------------------- */
+.odyssey-footer {
+  position: relative;
+  background-color: var(--black);
+  border-top: 1px solid rgba(242, 232, 216, 0.1);
+  padding: 5rem 3rem 3.5rem;
+}
+
+.footer-container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 3rem;
+  padding-bottom: 4rem;
+  border-bottom: 1px solid rgba(242, 232, 216, 0.08);
+}
+
+.footer-brand-huge {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--ivory);
+}
+
+.footer-brand-huge .period {
+  color: var(--red);
+}
+
+.footer-venue-meta {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.75rem;
+}
+
+.footer-links-list {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ivory-soft);
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: var(--red-bright);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-top: 2.5rem;
+}
+
+.footer-presenter {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bronze-light);
+}
+
+.footer-legal {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   37. SIMPLE CLEAN SCROLL REVEALS
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
